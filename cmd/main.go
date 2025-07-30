@@ -4,10 +4,8 @@ import (
 	"log"
 
 	"github.com/dwikiCahyop/post-go/internal/configs"
-	"github.com/dwikiCahyop/post-go/internal/handlers/memberships"
 	"github.com/gin-gonic/gin"
 )
-
 
 
 func main(){
@@ -16,14 +14,15 @@ func main(){
 	var (
 
 		cfg *configs.Config
+		databaseName string
 
 	)
 
 
 	err := configs.Init(
-		// configs.WithConfigFolder([]string{"./internal/configs"}),
-		configs.WithConfigFile("config2"),
-		// configs.WithConfigType("yaml"),  
+		configs.WithConfigFolder([]string{"./internal/configs"}),
+		configs.WithConfigFile("config"),
+		configs.WithConfigType("yaml"),  
 	)
 
 	if err != nil {
@@ -31,10 +30,25 @@ func main(){
 	}
 
 	cfg = configs.Get()
-	log.Println("config" , cfg.Service)
 
-  	membershipHandler := memberships.NewHandler(r)
-	membershipHandler.RegisterRoute()
+
+	databaseName = cfg.Database.DataSourceName
+
+	log.Println("get config : " , cfg)
+	log.Println("database" , databaseName)
+
+
+	// user := new(User)
+
+	// err = db.QueryRow("SELECT id, email FROM users WHERE id = ? ", 1).Scan(&user.id, &user.email)
+	// if err != nil {
+	// 	log.Fatal("error query database : ", err)
+	// }
+
+	// log.Println("user: ", user)
+
+  	// membershipHandler := memberships.NewHandler(r)
+	// membershipHandler.RegisterRoute()
 	
   
   	r.Run()
