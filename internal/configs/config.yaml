@@ -1,2 +1,4 @@
 service:
   port: ":9876"
+database:
+  dataSourceName: "root:babi123@tcp(localhost:3306)/mysqlgo"
